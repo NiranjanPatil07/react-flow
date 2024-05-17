@@ -1,7 +1,7 @@
 import React, { FC, memo } from "react";
 import { Handle, Position } from "reactflow";
 
-const DragHandleNode: FC<any> = ({ emoji, name, job, data }) => {
+const DragHandleNode: FC<any> = ({ data }) => {
   return (
     <div className='px-4 py-2 shadow-md bg-card border-2 border-stone-500 min-w-64'>
       <div className='flex'>

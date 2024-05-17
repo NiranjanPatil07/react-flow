@@ -4,11 +4,14 @@ import { useToast } from "../ui/use-toast";
 
 const Sidebar: FC<any> = ({ nodes, edges }) => {
   const { toast } = useToast();
+
+  //drag function for the sidebar node panel
   const onDragStart = (event: any, nodeType: any) => {
     event.dataTransfer.setData("application/reactflow", nodeType, `Message Node`);
     event.dataTransfer.effectAllowed = "move";
   };
 
+  //?handle save of update message and display toast based on the condition
   const handleSave = () => {
     if (nodes?.length - 1 !== edges?.length)
       toast({
@@ -42,9 +45,6 @@ const Sidebar: FC<any> = ({ nodes, edges }) => {
               <div className='text-muted-foreground'>{"Drag to add"}</div>
             </div>
           </div>
-
-          {/* <Handle type='target' position={Position.Top} className='w-16 !bg-teal-500 rounded-none h-1' /> */}
-          {/* <Handle type='source' position={Position.Bottom} className='w-16 !bg-teal-500 rounded-none h-1' /> */}
         </div>
       </div>
 

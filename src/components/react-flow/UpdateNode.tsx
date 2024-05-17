@@ -34,6 +34,7 @@ export interface PositionAbsolute {
 const UpdateNode: FC<any> = ({ data, handleCancel, handleUpdateNode }) => {
   const [nodeData, setNodeData] = useState<Root>(data);
 
+  //? Update node function which updates the message
   const changeMessage = (val: any) => {
     setNodeData({ ...nodeData, data: { ...nodeData?.data, message: val?.target?.value } });
   };
