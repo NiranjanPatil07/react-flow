@@ -3,12 +3,12 @@ import { Handle, Position } from "reactflow";
 
 const DragHandleNode: FC<any> = ({ data }) => {
   return (
-    <div className='px-4 py-2 shadow-md bg-card border-2 border-stone-500 min-w-64'>
+    <div className='px-4 py-2 shadow-md bg-card border-2 border-stone-500 max-w-60'>
       <div className='flex'>
         <div className='rounded-full w-12 h-12 flex justify-center items-center '>{data?.emoji ?? "💬"}</div>
         <div className='ml-2'>
-          <div className='text-base text-primary font-bold'>Send Message</div>
-          <div className='text-muted-foreground'>{data?.message}</div>
+          <div className='text-sm text-primary font-bold '>Send Message</div>
+          <div className='text-muted-foreground text-xs'>{data?.message}</div>
         </div>
       </div>
       {data?.source ? null : (

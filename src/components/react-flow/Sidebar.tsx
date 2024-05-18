@@ -2,6 +2,40 @@ import React, { FC, useState } from "react";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
 
+interface NodeData {
+  message?: string;
+  emoji?: string;
+  source?: boolean;
+  id?: string;
+  name?: string;
+}
+
+interface Node {
+  id: string;
+  type: string;
+  data: NodeData;
+  position: {
+    x: number;
+    y: number;
+  };
+  width: number;
+  height: number;
+  selected?: boolean;
+  positionAbsolute?: {
+    x: number;
+    y: number;
+  };
+  dragging?: boolean;
+}
+
+interface Edge {
+  source: string;
+  sourceHandle: string | null;
+  target: string;
+  targetHandle: string | null;
+  id: string;
+}
+
 const Sidebar: FC<any> = ({ nodes, edges }) => {
   const { toast } = useToast();
 
@@ -13,18 +47,36 @@ const Sidebar: FC<any> = ({ nodes, edges }) => {
 
   //?handle save of update message and display toast based on the condition
   const handleSave = () => {
-    if (nodes?.length - 1 !== edges?.length)
+    // Step 1: Create a set of all node IDs
+    const allNodeIds = new Set(nodes?.map((node: Node) => node?.id));
+
+    // Step 2: Create a set of node IDs that are targets in the edges array
+    const targetNodeIds = new Set(edges?.map((edge: Edge) => edge?.target));
+
+    // Step 3: Check if every node has a source
+    // A node has a source if it is a target node or if it's the source node with data.source set to true
+    let sourceNodeId: string | null = null;
+    for (const node of nodes) {
+      if (node?.data && node?.data?.source) {
+        sourceNodeId = node?.id;
+        break;
+      }
+    }
+
+    const allNodesHaveSource = Array.from(allNodeIds).every((nodeId) => targetNodeIds.has(nodeId) || nodeId === sourceNodeId);
+
+    if (allNodesHaveSource)
       toast({
-        variant: "destructive",
-        title: "Uh oh! Flow not saved.",
-        description: "One or more nodes cannot have empty target edge.",
+        variant: "success",
+        title: "Hurray! 🎉",
+        description: "Flow saved successfully!",
         duration: 2000,
       });
     else
       toast({
-        variant: "default",
-        title: "Hurray! 🎉",
-        description: "Flow saved successfully!",
+        variant: "destructive",
+        title: "Uh oh! Flow not saved.",
+        description: "One or more nodes cannot have empty target edge.",
         duration: 2000,
       });
   };
